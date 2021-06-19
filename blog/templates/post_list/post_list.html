@@ -1,0 +1,13 @@
+{% for post in userblog.posts.all %}
+    <div style="border: 1px solid black; margin-top: 15px;">
+        <p>{{ post.message }}</p>
+        <p>{{ post.date }}</p>
+        <p>{{ post.likings.all.count }}</p>
+    </div>
+    {% for comments in post.comments.all %}
+        <div style="margin-left: 15px; margin-top: 15px; border:1px solid red">
+                <p><strong>{{ comments.user }}</strong></p>
+                <p>{{ comments.message }}</p>
+        </div>
+    {% endfor %}
+{% endfor %}
