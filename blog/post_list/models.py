@@ -8,6 +8,7 @@ import uuid
 
 
 class Post(models.Model):
+    user = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='users')
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     message = models.TextField(max_length=1000, verbose_name='Описание')
     date = models.DateField(auto_now_add=True, editable=False)
@@ -15,8 +16,8 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey('auth.User',  on_delete=models.SET_NULL, null=True)
-    message = models.TextField(max_length=1000, verbose_name='Сообщение')
+    user_comment = models.ForeignKey('auth.User',  on_delete=models.SET_NULL, null=True)
+    message_comment = models.TextField(max_length=1000, verbose_name='Сообщение')
     date = models.DateField(auto_now_add=True, editable=False)
     post = models.ForeignKey('Post', on_delete=models.SET_NULL, blank=True, null=True, related_name='comments')
 
