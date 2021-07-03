@@ -1,0 +1,9 @@
+<form method="get" action="{% url 'user-search' %}">
+    {% csrf_token %}
+    <input type="search" name="user-sort"/>
+    <button type="submit">Найти</button>
+</form>
+
+{% for user in user_list %}
+    <a href="{% url 'post-list' user.userblog.id %}">{{ user.username }}</a>
+{% endfor %}

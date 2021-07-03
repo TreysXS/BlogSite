@@ -1,31 +1,28 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import DetailView
 
-from .models import UserBlog
 from .forms import PostForm, CommentForm
+from .service import like_or_unlike_post, create_post
+from .models import UserBlog
 
 
 class UserBlogDetail(DetailView):
     model = UserBlog
     template_name = 'post_list/post_list.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['form'] = CommentForm(self.request.POST)
-        return context
-
     def post(self, request, pk):
+        post_id = request.POST.get('post_id')
         post_form = PostForm(request.POST)
         comment_form = CommentForm(request.POST)
 
         if post_form.is_valid():
-            post = post_form.save()
-
-            user_blog = UserBlog.objects.get(user=request.user)
-            user_blog.posts.add(post)
+            create_post(post_form, pk)
 
         if comment_form.is_valid():
-            comment = comment_form.save()
+            comment_form.save()
+
+        if post_id is not None:  # check push like
+            like_or_unlike_post(request, post_id)
 
         return redirect('post-list', pk)
 

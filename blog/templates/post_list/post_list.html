@@ -1,13 +1,43 @@
+<form method="post">
+    {% csrf_token %}
+           <select hidden name="user" required id="id_user">
+  <option value="{{request.user.id}}" selected></option>
+
+</select>
+<label for="id_message">Добавить пост:</label><textarea name="message" cols="40" rows="10" maxlength="1000" required id="id_message">
+</textarea>
+
+
+            <p><button type="submit">Сохранить</button></p>
+</form>
+
 {% for post in userblog.posts.all %}
     <div style="border: 1px solid black; margin-top: 15px;">
         <p>{{ post.message }}</p>
         <p>{{ post.date }}</p>
         <p>{{ post.likings.all.count }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <input hidden="hidden" name="post_id" value="{{ post.id }}" />
+            <button>Like</button>
+        </form>
     </div>
+    <form method="post">
+        {% csrf_token %}
+        <select hidden name="user_comment" required id="id_user_comment">
+          <option value="{{request.user.id}}" selected></option>
+        </select>
+<label for="id_message_comment">Ответить:</label><textarea name="message_comment" cols="30" rows="3" maxlength="1000" required id="id_message_comment">
+</textarea>
+        <select hidden name="post" id="id_post">
+              <option value="{{ post.id }}" selected></option>
+        </select>
+        <p><button type="submit">Сохранить</button></p>
+    </form>
     {% for comments in post.comments.all %}
         <div style="margin-left: 15px; margin-top: 15px; border:1px solid red">
-                <p><strong>{{ comments.user }}</strong></p>
-                <p>{{ comments.message }}</p>
+                <p><strong>{{ comments.user_comment }}</strong></p>
+                <p>{{ comments.message_comment }}</p>
         </div>
     {% endfor %}
 {% endfor %}

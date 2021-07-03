@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'post_list.apps.PostListConfig',
+    'search_users.apps.SearchUsersConfig',
 ]
 
 MIDDLEWARE = [
