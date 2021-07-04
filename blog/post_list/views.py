@@ -7,10 +7,16 @@ from .models import UserBlog
 
 
 class UserBlogDetail(DetailView):
+    """
+    Shows the blog page.
+    """
     model = UserBlog
     template_name = 'post_list/post_list.html'
 
     def post(self, request, pk):
+        """
+        Saves the post and its comments. Likes or dislikes the post.
+        """
         post_id = request.POST.get('post_id')
         post_form = PostForm(request.POST)
         comment_form = CommentForm(request.POST)

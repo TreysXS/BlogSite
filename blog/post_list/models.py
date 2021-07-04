@@ -8,6 +8,9 @@ import uuid
 
 
 class Post(models.Model):
+    """
+    Post model.
+    """
     user = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='users')
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     message = models.TextField(max_length=1000, verbose_name='Описание')
@@ -21,6 +24,9 @@ class Post(models.Model):
 
 
 class LikePost(models.Model):
+    """
+    Model of the user who liked the post.
+    """
     user = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, related_name='user_like')
     post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True, related_name='likings')
 
@@ -29,6 +35,9 @@ class LikePost(models.Model):
 
 
 class Comment(models.Model):
+    """
+    Model of the comment under the post.
+    """
     user_comment = models.ForeignKey('auth.User',  on_delete=models.SET_NULL, null=True)
     message_comment = models.TextField(max_length=1000, verbose_name='Сообщение')
     date = models.DateField(auto_now_add=True, editable=False)
@@ -39,6 +48,9 @@ class Comment(models.Model):
 
 
 class UserBlog(models.Model):
+    """
+    The blog model for the user.
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     posts = models.ManyToManyField(Post)
 

@@ -1,7 +1,6 @@
 <form method="get" action="{% url 'user-search' %}">
-    {% csrf_token %}
-    <input type="search" name="user-sort"/>
-    <button type="submit">Найти</button>
+    <input  name="user-sort"/>
+    <button method="{{csrf_token}}" type="submit">Найти</button>
 </form>
 
 {% for user in user_list %}
